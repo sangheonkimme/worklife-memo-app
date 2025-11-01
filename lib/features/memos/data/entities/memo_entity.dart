@@ -14,7 +14,7 @@ class MemoEntity {
     required this.updatedAt,
     this.isPinned = false,
     this.folderId,
-  }) : searchText = _buildSearchText(title, content);
+  }) : searchText = buildSearchText(title, content);
 
   Id id;
   String title;
@@ -39,15 +39,6 @@ class MemoEntity {
     );
   }
 
-  void applyDomain(Memo memo) {
-    title = memo.title;
-    content = memo.content;
-    isPinned = memo.isPinned;
-    folderId = memo.folderId;
-    updatedAt = memo.updatedAt;
-    searchText = _buildSearchText(title, content);
-  }
-
   static MemoEntity fromDomain(Memo memo) {
     return MemoEntity(
       id: memo.id ?? Isar.autoIncrement,
@@ -60,7 +51,7 @@ class MemoEntity {
     );
   }
 
-  static String _buildSearchText(String title, String content) {
+  static String buildSearchText(String title, String content) {
     final buffer = StringBuffer()
       ..write(title.toLowerCase())
       ..write(' ')

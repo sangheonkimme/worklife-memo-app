@@ -46,7 +46,8 @@ class MemoLocalDataSource {
       if (entity != null) {
         entity.isPinned = isPinned;
         entity.updatedAt = DateTime.now();
-        entity.searchText = _computeSearchText(entity.title, entity.content);
+        entity.searchText =
+            MemoEntity.buildSearchText(entity.title, entity.content);
         await isar.memoEntitys.put(entity);
       }
     });
@@ -104,13 +105,5 @@ class MemoLocalDataSource {
       );
       return query.watch(fireImmediately: true);
     });
-  }
-
-  String _computeSearchText(String title, String content) {
-    final buffer = StringBuffer()
-      ..write(title.toLowerCase())
-      ..write(' ')
-      ..write(content.toLowerCase());
-    return buffer.toString();
   }
 }

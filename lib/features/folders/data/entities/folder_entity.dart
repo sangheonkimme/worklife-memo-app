@@ -27,10 +27,6 @@ class FolderEntity {
     );
   }
 
-  void applyName(String newName) {
-    name = newName;
-  }
-
   static FolderEntity fromDomain(Folder folder) {
     return FolderEntity(
       id: folder.id ?? Isar.autoIncrement,
