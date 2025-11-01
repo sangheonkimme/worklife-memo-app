@@ -60,21 +60,48 @@ class MemoLocalDataSource {
     final trimmed = query?.trim();
 
     return Stream.fromFuture(_isarFuture).asyncExpand((isar) {
-      var qb = isar.memoEntitys.filter();
+      final filters = <FilterOperation>[];
 
       if (pinnedOnly) {
-        qb = qb.isPinnedEqualTo(true);
+        filters.add(
+          const FilterCondition.equalTo(
+            property: 'isPinned',
+            value: true,
+          ),
+        );
       }
 
       if (folderId != null) {
-        qb = qb.folderIdEqualTo(folderId);
+        filters.add(
+          FilterCondition.equalTo(
+            property: 'folderId',
+            value: folderId,
+          ),
+        );
       }
 
       if (trimmed != null && trimmed.isNotEmpty) {
-        qb = qb.searchTextContains(trimmed.toLowerCase());
+        filters.add(
+          FilterCondition.contains(
+            property: 'searchText',
+            value: trimmed.toLowerCase(),
+            caseSensitive: false,
+          ),
+        );
       }
 
-      final query = (qb as dynamic).build() as Query<MemoEntity>;
+      FilterOperation? filterOperation;
+      if (filters.isEmpty) {
+        filterOperation = null;
+      } else if (filters.length == 1) {
+        filterOperation = filters.first;
+      } else {
+        filterOperation = FilterGroup.and(filters);
+      }
+
+      final query = isar.memoEntitys.buildQuery<MemoEntity>(
+        filter: filterOperation,
+      );
       return query.watch(fireImmediately: true);
     });
   }

@@ -90,18 +90,6 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    _buildFolderPicker(foldersAsync),
-                    const SizedBox(height: 16),
-                    SwitchListTile(
-                      value: _isPinned,
-                      onChanged: (value) {
-                        setState(() {
-                          _isPinned = value;
-                        });
-                      },
-                      title: const Text('핀 고정'),
-                    ),
-                    const SizedBox(height: 16),
                     TextField(
                       controller: _contentController,
                       decoration: const InputDecoration(
@@ -112,6 +100,8 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
                       maxLines: null,
                       minLines: 8,
                     ),
+                    const SizedBox(height: 16),
+                    _buildFolderPicker(foldersAsync),
                     if (errorMessage != null) ...[
                       const SizedBox(height: 16),
                       Text(
@@ -180,91 +170,143 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
   }
 
   Widget _buildFolderPicker(AsyncValue<List<Folder>> folderAsync) {
+    final theme = Theme.of(context);
+    final folders = folderAsync.asData?.value ?? const <Folder>[];
+    String? selectedFolderName;
+    if (_selectedFolderId != null) {
+      for (final folder in folders) {
+        if (folder.id == _selectedFolderId) {
+          selectedFolderName = folder.name;
+          break;
+        }
+      }
+    }
+    final isLoading = folderAsync is AsyncLoading<List<Folder>>;
+    final hasError = folderAsync is AsyncError<List<Folder>>;
+    final displayText = isLoading
+        ? '폴더 불러오는 중...'
+        : (selectedFolderName ?? '폴더 없음');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: double.infinity,
-          child: DropdownMenu<int?>(
-            key: ValueKey(_selectedFolderId),
-            initialSelection: _selectedFolderId,
-            label: const Text('폴더'),
-            dropdownMenuEntries: [
-              const DropdownMenuEntry<int?>(value: null, label: '폴더 없음'),
-              ...folderAsync.asData?.value
-                      .map(
-                        (folder) => DropdownMenuEntry<int?>(
-                          value: folder.id,
-                          label: folder.name,
-                        ),
-                      )
-                      .toList() ??
-                  [],
-            ],
-            onSelected: (value) {
-              setState(() {
-                _selectedFolderId = value;
-              });
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
+            onTap: () {
+              if (isLoading) {
+                return;
+              }
+              _openFolderPicker(folders: folders);
             },
+            child: InputDecorator(
+              decoration: const InputDecoration(
+                labelText: '폴더',
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.arrow_drop_down),
+              ),
+              isEmpty: displayText.isEmpty,
+              child: Text(
+                displayText,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: isLoading
+                      ? theme.disabledColor
+                      : theme.textTheme.bodyMedium?.color,
+                ),
+              ),
+            ),
           ),
         ),
-        const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton.icon(
-            onPressed: _showCreateFolderDialog,
-            icon: const Icon(Icons.create_new_folder_outlined),
-            label: const Text('새 폴더 추가'),
-          ),
-        ),
-        if (folderAsync is AsyncError)
+        if (hasError)
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
               '폴더를 불러오지 못했습니다.',
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
+              style: TextStyle(color: theme.colorScheme.error),
             ),
           ),
       ],
     );
   }
 
-  Future<void> _showCreateFolderDialog() async {
-    final nameController = TextEditingController();
-    final messenger = ScaffoldMessenger.of(context);
-
-    final name = await showDialog<String>(
+  Future<void> _openFolderPicker({required List<Folder> folders}) async {
+    final result =
+        await showModalBottomSheet<({bool createNew, int? folderId})>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('새 폴더'),
-        content: TextField(
-          controller: nameController,
-          autofocus: true,
-          decoration: const InputDecoration(hintText: '폴더 이름'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('취소'),
-          ),
-          FilledButton(
-            onPressed: () {
-              final text = nameController.text.trim();
-              if (text.isEmpty) {
-                messenger.showSnackBar(
-                  const SnackBar(content: Text('폴더 이름을 입력해주세요.')),
-                );
-                return;
-              }
-              Navigator.of(context).pop(text);
-            },
-            child: const Text('추가'),
-          ),
-        ],
+      builder: (context) => _FolderPickerSheet(
+        folders: folders,
+        selectedFolderId: _selectedFolderId,
       ),
     );
 
-    nameController.dispose();
+    if (!mounted || result == null) {
+      return;
+    }
+
+    if (result.createNew) {
+      await _showCreateFolderDialog();
+      return;
+    }
+
+    setState(() {
+      _selectedFolderId = result.folderId;
+    });
+  }
+
+  Future<void> _showCreateFolderDialog() async {
+    final messenger = ScaffoldMessenger.of(context);
+
+    var input = '';
+    var showValidationError = false;
+
+    final name = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return AlertDialog(
+              title: const Text('새 폴더'),
+              content: TextField(
+                autofocus: true,
+                onChanged: (value) {
+                  setDialogState(() {
+                    input = value;
+                    if (showValidationError && value.trim().isNotEmpty) {
+                      showValidationError = false;
+                    }
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: '폴더 이름',
+                  errorText:
+                      showValidationError ? '폴더 이름을 입력해주세요.' : null,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('취소'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    final trimmed = input.trim();
+                    if (trimmed.isEmpty) {
+                      setDialogState(() {
+                        showValidationError = true;
+                      });
+                      return;
+                    }
+                    Navigator.of(dialogContext).pop(trimmed);
+                  },
+                  child: const Text('추가'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
 
     if (name == null) {
       return;
@@ -272,6 +314,10 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
 
     final createFolder = ref.read(createFolderProvider);
     final result = await createFolder(name);
+
+    if (!mounted) {
+      return;
+    }
 
     result.fold(
       (failure) {
@@ -323,6 +369,74 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
         messenger.showSnackBar(const SnackBar(content: Text('메모를 삭제했습니다.')));
         Navigator.of(context).pop();
       },
+    );
+  }
+}
+
+class _FolderPickerSheet extends StatelessWidget {
+  const _FolderPickerSheet({
+    required this.folders,
+    required this.selectedFolderId,
+  });
+
+  final List<Folder> folders;
+  final int? selectedFolderId;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 12),
+              decoration: BoxDecoration(
+                color: Colors.grey.withValues(alpha: 0.4),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '폴더 선택',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ListTile(
+              leading: const Icon(Icons.all_inbox_outlined),
+              title: const Text('폴더 없음'),
+              trailing:
+                  selectedFolderId == null ? const Icon(Icons.check) : null,
+              onTap: () =>
+                  Navigator.of(context).pop((createNew: false, folderId: null)),
+            ),
+            ...folders.map(
+              (folder) => ListTile(
+                leading: const Icon(Icons.folder_outlined),
+                title: Text(folder.name),
+                trailing: folder.id == selectedFolderId
+                    ? const Icon(Icons.check)
+                    : null,
+                onTap: () => Navigator.of(context)
+                    .pop((createNew: false, folderId: folder.id)),
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.create_new_folder_outlined),
+              title: const Text('새 폴더 추가'),
+              onTap: () => Navigator.of(context)
+                  .pop((createNew: true, folderId: null)),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -45,8 +45,13 @@ class MemoCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.topCenter,
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    visualDensity: VisualDensity.compact,
                     icon: Icon(
                       memo.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                      size: theme.textTheme.titleMedium?.fontSize ?? 20,
                     ),
                     tooltip: memo.isPinned ? '핀 해제' : '핀 고정',
                     onPressed: onTogglePin,

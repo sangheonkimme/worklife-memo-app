@@ -1,5 +1,4 @@
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/folders/data/datasources/folder_local_ds.dart';
@@ -10,6 +9,7 @@ import '../../features/memos/data/datasources/memo_local_ds.dart';
 import '../../features/memos/data/entities/memo_entity.dart';
 import '../../features/memos/data/repositories/memo_repository_impl.dart';
 import '../../features/memos/domain/repositories/memo_repository.dart';
+import 'isar_directory.dart';
 
 part 'providers.g.dart';
 
@@ -20,9 +20,9 @@ Future<Isar> isar(IsarRef ref) async {
     return existing;
   }
 
-  final dir = await getApplicationDocumentsDirectory();
-
-  return Isar.open([MemoEntitySchema, FolderEntitySchema], directory: dir.path);
+  final directoryPath = await resolveIsarDirectory() ?? '';
+  const schemas = [MemoEntitySchema, FolderEntitySchema];
+  return Isar.open(schemas, directory: directoryPath);
 }
 
 @Riverpod(keepAlive: true)
