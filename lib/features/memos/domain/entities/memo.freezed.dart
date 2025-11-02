@@ -12,8 +12,7 @@ part of 'memo.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Memo _$MemoFromJson(Map<String, dynamic> json) {
   return _Memo.fromJson(json);
@@ -39,15 +38,14 @@ abstract class $MemoCopyWith<$Res> {
   factory $MemoCopyWith(Memo value, $Res Function(Memo) then) =
       _$MemoCopyWithImpl<$Res, Memo>;
   @useResult
-  $Res call({
-    int? id,
-    String title,
-    String content,
-    DateTime createdAt,
-    DateTime updatedAt,
-    bool isPinned,
-    int? folderId,
-  });
+  $Res call(
+      {int? id,
+      String title,
+      String content,
+      DateTime createdAt,
+      DateTime updatedAt,
+      bool isPinned,
+      int? folderId});
 }
 
 /// @nodoc
@@ -71,59 +69,54 @@ class _$MemoCopyWithImpl<$Res, $Val extends Memo>
     Object? isPinned = null,
     Object? folderId = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id: freezed == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            title: null == title
-                ? _value.title
-                : title // ignore: cast_nullable_to_non_nullable
-                      as String,
-            content: null == content
-                ? _value.content
-                : content // ignore: cast_nullable_to_non_nullable
-                      as String,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            updatedAt: null == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            isPinned: null == isPinned
-                ? _value.isPinned
-                : isPinned // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            folderId: freezed == folderId
-                ? _value.folderId
-                : folderId // ignore: cast_nullable_to_non_nullable
-                      as int?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      isPinned: null == isPinned
+          ? _value.isPinned
+          : isPinned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      folderId: freezed == folderId
+          ? _value.folderId
+          : folderId // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$MemoImplCopyWith<$Res> implements $MemoCopyWith<$Res> {
   factory _$$MemoImplCopyWith(
-    _$MemoImpl value,
-    $Res Function(_$MemoImpl) then,
-  ) = __$$MemoImplCopyWithImpl<$Res>;
+          _$MemoImpl value, $Res Function(_$MemoImpl) then) =
+      __$$MemoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int? id,
-    String title,
-    String content,
-    DateTime createdAt,
-    DateTime updatedAt,
-    bool isPinned,
-    int? folderId,
-  });
+  $Res call(
+      {int? id,
+      String title,
+      String content,
+      DateTime createdAt,
+      DateTime updatedAt,
+      bool isPinned,
+      int? folderId});
 }
 
 /// @nodoc
@@ -131,7 +124,7 @@ class __$$MemoImplCopyWithImpl<$Res>
     extends _$MemoCopyWithImpl<$Res, _$MemoImpl>
     implements _$$MemoImplCopyWith<$Res> {
   __$$MemoImplCopyWithImpl(_$MemoImpl _value, $Res Function(_$MemoImpl) _then)
-    : super(_value, _then);
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -144,53 +137,50 @@ class __$$MemoImplCopyWithImpl<$Res>
     Object? isPinned = null,
     Object? folderId = freezed,
   }) {
-    return _then(
-      _$MemoImpl(
-        id: freezed == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        title: null == title
-            ? _value.title
-            : title // ignore: cast_nullable_to_non_nullable
-                  as String,
-        content: null == content
-            ? _value.content
-            : content // ignore: cast_nullable_to_non_nullable
-                  as String,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        updatedAt: null == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        isPinned: null == isPinned
-            ? _value.isPinned
-            : isPinned // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        folderId: freezed == folderId
-            ? _value.folderId
-            : folderId // ignore: cast_nullable_to_non_nullable
-                  as int?,
-      ),
-    );
+    return _then(_$MemoImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      isPinned: null == isPinned
+          ? _value.isPinned
+          : isPinned // ignore: cast_nullable_to_non_nullable
+              as bool,
+      folderId: freezed == folderId
+          ? _value.folderId
+          : folderId // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$MemoImpl implements _Memo {
-  const _$MemoImpl({
-    this.id,
-    required this.title,
-    required this.content,
-    required this.createdAt,
-    required this.updatedAt,
-    this.isPinned = false,
-    this.folderId,
-  });
+  const _$MemoImpl(
+      {this.id,
+      required this.title,
+      required this.content,
+      required this.createdAt,
+      required this.updatedAt,
+      this.isPinned = false,
+      this.folderId});
 
   factory _$MemoImpl.fromJson(Map<String, dynamic> json) =>
       _$$MemoImplFromJson(json);
@@ -236,16 +226,8 @@ class _$MemoImpl implements _Memo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    title,
-    content,
-    createdAt,
-    updatedAt,
-    isPinned,
-    folderId,
-  );
+  int get hashCode => Object.hash(runtimeType, id, title, content, createdAt,
+      updatedAt, isPinned, folderId);
 
   @JsonKey(ignore: true)
   @override
@@ -255,20 +237,21 @@ class _$MemoImpl implements _Memo {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MemoImplToJson(this);
+    return _$$MemoImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Memo implements Memo {
-  const factory _Memo({
-    final int? id,
-    required final String title,
-    required final String content,
-    required final DateTime createdAt,
-    required final DateTime updatedAt,
-    final bool isPinned,
-    final int? folderId,
-  }) = _$MemoImpl;
+  const factory _Memo(
+      {final int? id,
+      required final String title,
+      required final String content,
+      required final DateTime createdAt,
+      required final DateTime updatedAt,
+      final bool isPinned,
+      final int? folderId}) = _$MemoImpl;
 
   factory _Memo.fromJson(Map<String, dynamic> json) = _$MemoImpl.fromJson;
 

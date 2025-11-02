@@ -9,26 +9,26 @@ import '../../domain/usecases/watch_folders.dart';
 part 'folder_list_controller.g.dart';
 
 @Riverpod(keepAlive: true)
-WatchFolders watchFolders(WatchFoldersRef ref) {
-  final repository = ref.watch(di.folderRepositoryProvider);
+Future<WatchFolders> watchFolders(WatchFoldersRef ref) async {
+  final repository = await ref.watch(di.folderRepositoryProvider.future);
   return WatchFolders(repository);
 }
 
 @Riverpod(keepAlive: true)
-CreateFolder createFolder(CreateFolderRef ref) {
-  final repository = ref.watch(di.folderRepositoryProvider);
+Future<CreateFolder> createFolder(CreateFolderRef ref) async {
+  final repository = await ref.watch(di.folderRepositoryProvider.future);
   return CreateFolder(repository);
 }
 
 @Riverpod(keepAlive: true)
-Stream<List<Folder>> folderList(FolderListRef ref) {
-  final watch = ref.watch(watchFoldersProvider);
-  return watch().asyncMap((result) {
-    return result.fold(
+Stream<List<Folder>> folderList(FolderListRef ref) async* {
+  final watch = await ref.watch(watchFoldersProvider.future);
+  await for (final result in watch()) {
+    yield result.fold(
       (failure) => throw _FolderFailureException(failure),
       (value) => value,
     );
-  });
+  }
 }
 
 class _FolderFailureException implements Exception {

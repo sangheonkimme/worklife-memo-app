@@ -177,7 +177,7 @@ class _MemoHomePageState extends ConsumerState<MemoHomePage> {
         );
       },
       error: (error, stackTrace) => _ErrorState(
-        message: '메모를 불러오지 못했습니다.',
+        message: '메모를 불러오지 못했습니다.\n${error.toString()}',
         onRetry: () {
           ref.invalidate(memoListProvider);
           ref.invalidate(pinnedMemoListProvider);
@@ -198,7 +198,7 @@ class _MemoHomePageState extends ConsumerState<MemoHomePage> {
       return;
     }
     final messenger = ScaffoldMessenger.of(context);
-    final toggle = ref.read(togglePinProvider);
+    final toggle = await ref.read(togglePinProvider.future);
     final result = await toggle(id: memo.id!, isPinned: !memo.isPinned);
 
     result.fold(

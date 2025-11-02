@@ -12,20 +12,20 @@ import 'memo_list_controller.dart';
 part 'memo_editor_controller.g.dart';
 
 @Riverpod(keepAlive: true)
-UpsertMemo upsertMemo(UpsertMemoRef ref) {
-  final repository = ref.watch(di.memoRepositoryProvider);
+Future<UpsertMemo> upsertMemo(UpsertMemoRef ref) async {
+  final repository = await ref.watch(di.memoRepositoryProvider.future);
   return UpsertMemo(repository);
 }
 
 @Riverpod(keepAlive: true)
-DeleteMemo deleteMemo(DeleteMemoRef ref) {
-  final repository = ref.watch(di.memoRepositoryProvider);
+Future<DeleteMemo> deleteMemo(DeleteMemoRef ref) async {
+  final repository = await ref.watch(di.memoRepositoryProvider.future);
   return DeleteMemo(repository);
 }
 
 @Riverpod(keepAlive: true)
-TogglePin togglePin(TogglePinRef ref) {
-  final repository = ref.watch(di.memoRepositoryProvider);
+Future<TogglePin> togglePin(TogglePinRef ref) async {
+  final repository = await ref.watch(di.memoRepositoryProvider.future);
   return TogglePin(repository);
 }
 
@@ -71,7 +71,8 @@ class MemoEditorController extends _$MemoEditorController {
       current.copyWith(memo: updatedMemo, isSaving: true, clearError: true),
     );
 
-    final result = await ref.read(upsertMemoProvider).call(updatedMemo);
+    final upsert = await ref.read(upsertMemoProvider.future);
+    final result = await upsert.call(updatedMemo);
 
     return result.fold(
       (failure) {
@@ -103,7 +104,8 @@ class MemoEditorController extends _$MemoEditorController {
 
     state = AsyncData(current.copyWith(isSaving: true, clearError: true));
 
-    final result = await ref.read(deleteMemoProvider).call(id);
+    final delete = await ref.read(deleteMemoProvider.future);
+    final result = await delete.call(id);
 
     return result.fold(
       (failure) {
@@ -135,9 +137,8 @@ class MemoEditorController extends _$MemoEditorController {
       return const Ok(null);
     }
 
-    final result = await ref
-        .read(togglePinProvider)
-        .call(id: current.memo.id!, isPinned: desired);
+    final toggle = await ref.read(togglePinProvider.future);
+    final result = await toggle.call(id: current.memo.id!, isPinned: desired);
 
     return result.fold((failure) {
       state = AsyncData(

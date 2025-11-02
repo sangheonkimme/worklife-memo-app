@@ -2,7 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'isar_directory_stub.dart'
-    if (dart.library.io) 'isar_directory_io.dart';
+    if (dart.library.io) 'isar_directory_io.dart' as impl;
+
+export 'isar_directory_stub.dart'
+    if (dart.library.io) 'isar_directory_io.dart'
+    show clearIsarDirectory, prepareResolvedIsarDirectory;
 
 Future<String?> resolveIsarDirectory() async {
   if (kIsWeb) {
@@ -11,8 +15,12 @@ Future<String?> resolveIsarDirectory() async {
 
   try {
     final dir = await getApplicationDocumentsDirectory();
-    return dir.path;
+    return impl.ensureIsarDirectory(dir.path);
   } catch (_) {
-    return fallbackIsarDirectory();
+    final fallback = await impl.fallbackIsarDirectory();
+    if (fallback == null) {
+      return null;
+    }
+    return impl.ensureIsarDirectory(fallback);
   }
 }

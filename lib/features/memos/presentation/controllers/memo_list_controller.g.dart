@@ -6,11 +6,11 @@ part of 'memo_list_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchMemosHash() => r'c1843d84e31d3cca08dac586432307bad57f9393';
+String _$watchMemosHash() => r'02b01dc8285550486544aee9d888ccaa043ddb7d';
 
 /// See also [watchMemos].
 @ProviderFor(watchMemos)
-final watchMemosProvider = Provider<WatchMemos>.internal(
+final watchMemosProvider = FutureProvider<WatchMemos>.internal(
   watchMemos,
   name: r'watchMemosProvider',
   debugGetCreateSourceHash:
@@ -19,12 +19,12 @@ final watchMemosProvider = Provider<WatchMemos>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef WatchMemosRef = ProviderRef<WatchMemos>;
-String _$watchPinnedMemosHash() => r'2fc769b0c09abc75d32d8bec9f3ab0326b8bf52c';
+typedef WatchMemosRef = FutureProviderRef<WatchMemos>;
+String _$watchPinnedMemosHash() => r'91fe0ab3f59856c57762386f1ed7f1e17018f373';
 
 /// See also [watchPinnedMemos].
 @ProviderFor(watchPinnedMemos)
-final watchPinnedMemosProvider = Provider<WatchPinnedMemos>.internal(
+final watchPinnedMemosProvider = FutureProvider<WatchPinnedMemos>.internal(
   watchPinnedMemos,
   name: r'watchPinnedMemosProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -34,12 +34,12 @@ final watchPinnedMemosProvider = Provider<WatchPinnedMemos>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef WatchPinnedMemosRef = ProviderRef<WatchPinnedMemos>;
-String _$getMemoHash() => r'8ce09ff7649f349535e4bc4e57e73c7e3e7a359c';
+typedef WatchPinnedMemosRef = FutureProviderRef<WatchPinnedMemos>;
+String _$getMemoHash() => r'f94095db2e4493a09896ebb26aa91c68bbacf57e';
 
 /// See also [getMemo].
 @ProviderFor(getMemo)
-final getMemoProvider = Provider<GetMemo>.internal(
+final getMemoProvider = FutureProvider<GetMemo>.internal(
   getMemo,
   name: r'getMemoProvider',
   debugGetCreateSourceHash:
@@ -48,8 +48,8 @@ final getMemoProvider = Provider<GetMemo>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef GetMemoRef = ProviderRef<GetMemo>;
-String _$memoListHash() => r'4d89e2ffd2a5e61ed5b1ff01ce1f52368a8e5559';
+typedef GetMemoRef = FutureProviderRef<GetMemo>;
+String _$memoListHash() => r'62993f6f74b5179bfe73cb6d1d539392f772de99';
 
 /// See also [memoList].
 @ProviderFor(memoList)
@@ -63,7 +63,7 @@ final memoListProvider = StreamProvider<List<Memo>>.internal(
 );
 
 typedef MemoListRef = StreamProviderRef<List<Memo>>;
-String _$pinnedMemoListHash() => r'12bc93d68da73e571a83c977824e3a684a795f0c';
+String _$pinnedMemoListHash() => r'f2e109a424c7befa94a75ff93a585597c26d68b0';
 
 /// See also [pinnedMemoList].
 @ProviderFor(pinnedMemoList)
@@ -78,7 +78,7 @@ final pinnedMemoListProvider = StreamProvider<List<Memo>>.internal(
 );
 
 typedef PinnedMemoListRef = StreamProviderRef<List<Memo>>;
-String _$memoByIdHash() => r'09ef3314a11836a5a3fa99150462a3a8577f7e6c';
+String _$memoByIdHash() => r'905d54ac2bf117c4aa9b380be40a50caa1c59f80';
 
 /// Copied from Dart SDK
 class _SystemHash {

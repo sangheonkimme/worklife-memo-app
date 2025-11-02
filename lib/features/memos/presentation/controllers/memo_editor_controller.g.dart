@@ -6,11 +6,11 @@ part of 'memo_editor_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$upsertMemoHash() => r'b5c68fe6621814be17d620480fd3bda5a137ebe2';
+String _$upsertMemoHash() => r'c591df67b0082181ac906d056385b3cc82947e9c';
 
 /// See also [upsertMemo].
 @ProviderFor(upsertMemo)
-final upsertMemoProvider = Provider<UpsertMemo>.internal(
+final upsertMemoProvider = FutureProvider<UpsertMemo>.internal(
   upsertMemo,
   name: r'upsertMemoProvider',
   debugGetCreateSourceHash:
@@ -19,12 +19,12 @@ final upsertMemoProvider = Provider<UpsertMemo>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef UpsertMemoRef = ProviderRef<UpsertMemo>;
-String _$deleteMemoHash() => r'6ae11ccbd5463a0a63ee5770d6a643f7988da834';
+typedef UpsertMemoRef = FutureProviderRef<UpsertMemo>;
+String _$deleteMemoHash() => r'4d9304ba1b47dad4150982011457ae9ee26a8627';
 
 /// See also [deleteMemo].
 @ProviderFor(deleteMemo)
-final deleteMemoProvider = Provider<DeleteMemo>.internal(
+final deleteMemoProvider = FutureProvider<DeleteMemo>.internal(
   deleteMemo,
   name: r'deleteMemoProvider',
   debugGetCreateSourceHash:
@@ -33,12 +33,12 @@ final deleteMemoProvider = Provider<DeleteMemo>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef DeleteMemoRef = ProviderRef<DeleteMemo>;
-String _$togglePinHash() => r'8b62f473785aaa6f2aad09d276dd6478053862ef';
+typedef DeleteMemoRef = FutureProviderRef<DeleteMemo>;
+String _$togglePinHash() => r'c17502a51f4cd8d3cfd71a482d9f0bd7fb57d863';
 
 /// See also [togglePin].
 @ProviderFor(togglePin)
-final togglePinProvider = Provider<TogglePin>.internal(
+final togglePinProvider = FutureProvider<TogglePin>.internal(
   togglePin,
   name: r'togglePinProvider',
   debugGetCreateSourceHash:
@@ -47,9 +47,9 @@ final togglePinProvider = Provider<TogglePin>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef TogglePinRef = ProviderRef<TogglePin>;
+typedef TogglePinRef = FutureProviderRef<TogglePin>;
 String _$memoEditorControllerHash() =>
-    r'fead3bfa8ff831b18a758fadf2ce23dbb6352b8a';
+    r'1b4c08ccf685eeaeadfe3f44d8b4f92cee687569';
 
 /// Copied from Dart SDK
 class _SystemHash {

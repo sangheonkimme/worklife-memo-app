@@ -222,8 +222,8 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              '폴더를 불러오지 못했습니다.',
-              style: TextStyle(color: theme.colorScheme.error),
+              '폴더를 불러오지 못했습니다.\n${folderAsync.error}',
+              style: TextStyle(color: theme.colorScheme.error, fontSize: 12),
             ),
           ),
       ],
@@ -312,7 +312,7 @@ class _MemoEditorPageState extends ConsumerState<MemoEditorPage> {
       return;
     }
 
-    final createFolder = ref.read(createFolderProvider);
+    final createFolder = await ref.read(createFolderProvider.future);
     final result = await createFolder(name);
 
     if (!mounted) {

@@ -7,11 +7,11 @@ part of 'folder.dart';
 // **************************************************************************
 
 _$FolderImpl _$$FolderImplFromJson(Map<String, dynamic> json) => _$FolderImpl(
-  id: (json['id'] as num?)?.toInt(),
-  name: json['name'] as String,
-  sortOrder: (json['sortOrder'] as num).toInt(),
-  createdAt: DateTime.parse(json['createdAt'] as String),
-);
+      id: (json['id'] as num?)?.toInt(),
+      name: json['name'] as String,
+      sortOrder: (json['sortOrder'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
 
 Map<String, dynamic> _$$FolderImplToJson(_$FolderImpl instance) =>
     <String, dynamic>{

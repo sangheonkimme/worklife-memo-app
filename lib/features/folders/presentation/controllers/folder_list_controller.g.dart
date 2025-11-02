@@ -6,11 +6,11 @@ part of 'folder_list_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchFoldersHash() => r'41378b9696b1b6880ac3eb5426ffb54322c16d95';
+String _$watchFoldersHash() => r'04e21131120c09e853758e9e18497d70a801518b';
 
 /// See also [watchFolders].
 @ProviderFor(watchFolders)
-final watchFoldersProvider = Provider<WatchFolders>.internal(
+final watchFoldersProvider = FutureProvider<WatchFolders>.internal(
   watchFolders,
   name: r'watchFoldersProvider',
   debugGetCreateSourceHash:
@@ -19,12 +19,12 @@ final watchFoldersProvider = Provider<WatchFolders>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef WatchFoldersRef = ProviderRef<WatchFolders>;
-String _$createFolderHash() => r'ee55d5cffe8e65f191cd350fd87f9a425eea431d';
+typedef WatchFoldersRef = FutureProviderRef<WatchFolders>;
+String _$createFolderHash() => r'a7df7aad5024db619ed8b46762f30024892e0454';
 
 /// See also [createFolder].
 @ProviderFor(createFolder)
-final createFolderProvider = Provider<CreateFolder>.internal(
+final createFolderProvider = FutureProvider<CreateFolder>.internal(
   createFolder,
   name: r'createFolderProvider',
   debugGetCreateSourceHash:
@@ -33,8 +33,8 @@ final createFolderProvider = Provider<CreateFolder>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef CreateFolderRef = ProviderRef<CreateFolder>;
-String _$folderListHash() => r'db13650a43f05fc26664c9bd672d1d2433c28104';
+typedef CreateFolderRef = FutureProviderRef<CreateFolder>;
+String _$folderListHash() => r'89513faa695a7760b79845af379d56691b78ac19';
 
 /// See also [folderList].
 @ProviderFor(folderList)

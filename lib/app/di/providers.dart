@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,33 +21,73 @@ Future<Isar> isar(IsarRef ref) async {
     return existing;
   }
 
-  final directoryPath = await resolveIsarDirectory() ?? '';
+  if (kIsWeb) {
+    throw UnsupportedError('Isar is not supported on the web platform.');
+  }
+
   const schemas = [MemoEntitySchema, FolderEntitySchema];
-  return Isar.open(schemas, directory: directoryPath);
+  final directoryPath = await resolveIsarDirectory();
+  if (directoryPath == null || directoryPath.isEmpty) {
+    throw UnsupportedError('Failed to resolve Isar storage directory.');
+  }
+  await prepareResolvedIsarDirectory(directoryPath);
+
+  try {
+    return await Isar.open(
+      schemas,
+      directory: directoryPath,
+      name: 'worklife_memo',
+    );
+  } on IsarError catch (error) {
+    final message = error.message;
+    const schemaMismatchError = 'Collection id is invalid';
+    if (message.contains(schemaMismatchError)) {
+      await clearIsarDirectory(directoryPath);
+      await prepareResolvedIsarDirectory(directoryPath);
+      return Isar.open(
+        schemas,
+        directory: directoryPath,
+        name: 'worklife_memo',
+      );
+    }
+    rethrow;
+  }
 }
 
 @Riverpod(keepAlive: true)
-MemoLocalDataSource memoLocalDataSource(MemoLocalDataSourceRef ref) {
-  final isar = ref.watch(isarProvider.future);
-  return MemoLocalDataSource(isar: isar);
+Future<MemoLocalDataSource> memoLocalDataSource(
+  MemoLocalDataSourceRef ref,
+) async {
+  if (kIsWeb) {
+    return MemoLocalDataSource();
+  }
+  final isar = await ref.watch(isarProvider.future);
+  return MemoLocalDataSource(isar: Future.value(isar));
 }
 
 @Riverpod(keepAlive: true)
-FolderLocalDataSource folderLocalDataSource(FolderLocalDataSourceRef ref) {
-  final isar = ref.watch(isarProvider.future);
-  return FolderLocalDataSource(isar: isar);
+Future<FolderLocalDataSource> folderLocalDataSource(
+  FolderLocalDataSourceRef ref,
+) async {
+  if (kIsWeb) {
+    return FolderLocalDataSource();
+  }
+  final isar = await ref.watch(isarProvider.future);
+  return FolderLocalDataSource(isar: Future.value(isar));
 }
 
 @Riverpod(keepAlive: true)
-MemoRepository memoRepository(MemoRepositoryRef ref) {
+Future<MemoRepository> memoRepository(MemoRepositoryRef ref) async {
+  final dataSource = await ref.watch(memoLocalDataSourceProvider.future);
   return MemoRepositoryImpl(
-    memoLocalDataSource: ref.watch(memoLocalDataSourceProvider),
+    memoLocalDataSource: dataSource,
   );
 }
 
 @Riverpod(keepAlive: true)
-FolderRepository folderRepository(FolderRepositoryRef ref) {
+Future<FolderRepository> folderRepository(FolderRepositoryRef ref) async {
+  final dataSource = await ref.watch(folderLocalDataSourceProvider.future);
   return FolderRepositoryImpl(
-    localDataSource: ref.watch(folderLocalDataSourceProvider),
+    localDataSource: dataSource,
   );
 }
