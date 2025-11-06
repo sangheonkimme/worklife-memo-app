@@ -2,7 +2,7 @@ name: worklife_memo_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.9.2
@@ -56,13 +56,37 @@ dev_dependencies:
   json_serializable: ^6.8.0
   isar_generator: ^3.1.0+1
   riverpod: ^2.5.1
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icons/icon_darkblue.png" # 원하는 버전으로 교체
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/app_icons/icon_darkblue.png"
+
+flutter_native_splash:
+  color: "#0A84FF"
+  image: assets/splash/splash_light.png
+
+  color_dark: "#1C1C1E"
+  image_dark: assets/splash/splash_dark.png
+
+  android_12:
+    color: "#0A84FF"
+    image: assets/splash/splash_light.png
+    icon_background_color: "#0A84FF"
+
+    color_dark: "#1C1C1E"
+    image_dark: assets/splash/splash_dark.png
+    icon_background_color_dark: "#1C1C1E"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

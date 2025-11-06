@@ -41,7 +41,7 @@ class _MemoHomePageState extends ConsumerState<MemoHomePage> {
     final folderAsync = ref.watch(folderListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('워크라이프 메모')),
+      appBar: AppBar(title: const Text('스마트메모')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

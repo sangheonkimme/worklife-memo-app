@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="worklife_memo_app"
+        android:label="스마트메모"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

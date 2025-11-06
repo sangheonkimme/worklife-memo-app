@@ -1,4 +1,4 @@
-package com.example.worklife_memo_app
+package com.sangheon.smartmemo
 
 import io.flutter.embedding.android.FlutterActivity
 
